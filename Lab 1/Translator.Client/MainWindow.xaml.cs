@@ -2,6 +2,7 @@
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Translator.Client
 {
@@ -17,9 +18,38 @@ namespace Translator.Client
         public MainWindow()
         {
             this.InitializeComponent();
-            TcpChannel channel = new TcpChannel();
-            ChannelServices.RegisterChannel(channel, false);
-            this.Translator = (Translator.Server.Translator) Activator.GetObject(typeof (Translator.Server.Translator), MainWindow.URI);
+
+            try
+            {
+                TcpChannel channel = new TcpChannel();
+                ChannelServices.RegisterChannel(channel, false);
+                this.Translator = (Translator.Server.Translator)Activator.GetObject(typeof(Translator.Server.Translator), MainWindow.URI);
+            }
+
+            catch
+            {
+                MessageBox.Show("The remote host could not be reached.", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.Translator = null;
+            }
+        }
+
+        private void InputTextBox_KeyDown(Object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                this.TranslateButton_Click(this.TranslateButton, new RoutedEventArgs());
+                e.Handled = true;
+            }
+        }
+
+        private void TranslateButton_Click(Object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(this.InputTextBox.Text))
+            {
+                MessageBox.Show("You must enter a string to be translated.", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            this.OutputTextBlock.Text = this.Translator.Translate(this.InputTextBox.Text);
         }
     }
 }

@@ -16,8 +16,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="InputTextBox" Grid.Row="0" Grid.Column="0" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" AcceptsReturn="False" AcceptsTab="False" TabIndex="1" />
-        <Button x:Name="TranslateButton" Grid.Row="1" Grid.Column="0" Margin="10" Content="Translate!" TabIndex="2" />
+        <TextBox x:Name="InputTextBox" Grid.Row="0" Grid.Column="0" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" AcceptsReturn="False" AcceptsTab="False" TabIndex="1" KeyDown="InputTextBox_KeyDown" />
+        <Button x:Name="TranslateButton" Grid.Row="1" Grid.Column="0" Margin="10" Content="Translate!" TabIndex="2" Click="TranslateButton_Click" />
         <TextBlock x:Name="OutputTextBlock" Grid.Row="2" Grid.Column="0" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
     </Grid>
 </Window>
