@@ -13,7 +13,7 @@ namespace Translator.Client
     {
         private const String URI = "tcp://localhost:5002/Translate";
 
-        private readonly Translator.Server.Translator Translator;
+        private readonly ITranslator Translator;
 
         public MainWindow()
         {
@@ -24,7 +24,7 @@ namespace Translator.Client
             {
                 TcpChannel channel = new TcpChannel();
                 ChannelServices.RegisterChannel(channel, false);
-                this.Translator = (Translator.Server.Translator)Activator.GetObject(typeof(Translator.Server.Translator), MainWindow.URI);
+                this.Translator = (ITranslator) Activator.GetObject(typeof (ITranslator), MainWindow.URI);
             }
 
             catch
