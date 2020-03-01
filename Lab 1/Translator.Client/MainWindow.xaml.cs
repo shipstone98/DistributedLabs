@@ -18,6 +18,7 @@ namespace Translator.Client
         public MainWindow()
         {
             this.InitializeComponent();
+            this.InputTextBox.Focus();
 
             try
             {
