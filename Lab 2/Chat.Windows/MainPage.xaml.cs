@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR.Client;
 using System;
+using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -14,15 +17,62 @@ namespace Chat.Windows
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private const String Hostname = "localhost";
+        private const ushort Port = 44333;
+
+        private bool Connected;
+        private readonly HubConnection Connection;
+
         public MainPage()
         {
             this.InitializeComponent();
             this.UsernameTextBox.Focus(FocusState.Keyboard);
+            this.Connected = false;
+            this.Connection = new HubConnectionBuilder().WithUrl($"https://{MainPage.Hostname}:{MainPage.Port}/ChatHub").Build();
+
+            this.Connection.On<String, String>("GetMessage",
+                new Action<String, String>((username, message) =>
+                    this.GetMessage(username, message)));
+        }
+
+        private async Task ConnectAsync()
+        {
+            if (this.Connected)
+            {
+                return;
+            }
+
+            try
+            {
+                await this.Connection.StartAsync();
+                this.Connected = true;
+            }
+
+            catch
+            {
+                MessageDialog md = new MessageDialog("Could not connect to host.", "Error!");
+                await md.ShowAsync();
+                this.Connected = false;
+            }
+        }
+
+        private async void GetMessage(String username, String message)
+        {
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                () =>
+                {
+                    String chat = $"{username}: {message}";
+                    this.MessageListBox.Items.Add(chat);
+                });
         }
 
         private void MessageTextBox_KeyDown(Object sender, KeyRoutedEventArgs e)
         {
-            this.SendButton_ClickAsync(this.SendButton, new RoutedEventArgs());
+            if (e.Key == VirtualKey.Enter)
+            {
+                this.SendButton_ClickAsync(this.SendButton, new RoutedEventArgs());
+                e.Handled = true;
+            }
         }
 
         private async void SendButton_ClickAsync(Object sender, RoutedEventArgs e)
@@ -38,11 +88,33 @@ namespace Chat.Windows
                 MessageDialog md = new MessageDialog("You must enter a message.", "Error!");
                 await md.ShowAsync();
             }
+
+            await this.ConnectAsync();
+
+            if (!this.Connected)
+            {
+                return;
+            }
+
+            try
+            {
+                await this.Connection.InvokeAsync("BroadcastMessage", this.UsernameTextBox.Text, this.MessageTextBox.Text);
+            }
+
+            catch
+            {
+                MessageDialog md = new MessageDialog("An unknown error occurred.", "Error!");
+                await md.ShowAsync();
+            }
         }
 
         private void UsernameTextBox_KeyDown(Object sender, KeyRoutedEventArgs e)
         {
-            this.MessageTextBox.Focus(FocusState.Keyboard);
+            if (e.Key == VirtualKey.Enter)
+            {
+                this.MessageTextBox.Focus(FocusState.Keyboard);
+                e.Handled = true;
+            }
         }
     }
 }
