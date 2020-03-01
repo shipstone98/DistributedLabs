@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Translator.Client
 {
@@ -20,9 +10,16 @@ namespace Translator.Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const String URI = "tcp://localhost:5002/Translate";
+
+        private readonly Translator.Server.Translator Translator;
+
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
+            TcpChannel channel = new TcpChannel();
+            ChannelServices.RegisterChannel(channel, false);
+            this.Translator = (Translator.Server.Translator) Activator.GetObject(typeof (Translator.Server.Translator), MainWindow.URI);
         }
     }
 }
