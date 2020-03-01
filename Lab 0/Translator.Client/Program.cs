@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Translator.Client
 {
@@ -10,7 +11,7 @@ namespace Translator.Client
         private const String Hostname = "localhost";
         private const ushort Port = 5002;
 
-        private static int Main(String[] args)
+        private async static Task<int> Main(String[] args)
         {
             Console.Write("Please enter the message: ");
             String message = Console.ReadLine();
@@ -20,8 +21,8 @@ namespace Translator.Client
             {
                 client.Connect(Program.Hostname, Program.Port);
                 NetworkStream ns = client.GetStream();
-                ns.Write(rawData, 0, rawData.Length);
-                ns.Flush();
+                await ns.WriteAsync(rawData, 0, rawData.Length);
+                await ns.FlushAsync();
                 ns.Close();
             }
 
