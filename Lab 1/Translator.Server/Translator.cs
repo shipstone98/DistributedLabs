@@ -4,6 +4,10 @@ namespace Translator.Server
 {
     public class Translator: MarshalByRefObject, ITranslator
     {
+        private static ulong InstanceCount = 0;
+
+        public Translator() => Console.WriteLine("Created instance #" + (++ Translator.InstanceCount));
+
         public String GetName() => "Christopher Shipstone";
 
         public String GetStudentId() => "553101";
