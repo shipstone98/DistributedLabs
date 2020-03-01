@@ -11,10 +11,20 @@ namespace Translator.Server
 
         private static int Main(String[] args)
         {
-            TcpChannel channel = new TcpChannel(Program.Port);
-            ChannelServices.RegisterChannel(channel, false);
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof (Translator), "Translate", WellKnownObjectMode.SingleCall);
-            Console.WriteLine("Channel service is now registered");
+            try
+            {
+                TcpChannel channel = new TcpChannel(Program.Port);
+                ChannelServices.RegisterChannel(channel, false);
+                RemotingConfiguration.RegisterWellKnownServiceType(typeof (Translator), "Translate", WellKnownObjectMode.SingleCall);
+                Console.WriteLine("Channel service is now registered");
+            }
+
+            catch
+            {
+                Console.WriteLine("ERROR: couldn't bind service");
+                return -1;
+            }
+
             Console.Write("Press any key to exit...");
             Console.ReadKey(true);
             Console.WriteLine();
