@@ -9,6 +9,21 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="55" />
+            <RowDefinition Height="2*" MinHeight="110" />
+            <RowDefinition Height="*" MinHeight="55" />
+            <RowDefinition Height="7*" />
+        </Grid.RowDefinitions>
 
+        <TextBlock x:Name="UsernameTextBlock" Grid.Row="0" Grid.Column="0" Margin="10" Text="Username" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <TextBox x:Name="UsernameTextBox" Grid.Row="0" Grid.Column="1" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Stretch" TabIndex="1" AcceptsReturn="False" />
+        <TextBox x:Name="MessageTextBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" TabIndex="2" />
+        <Button x:Name="SendButton" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" Content="Send" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" TabIndex="3" />
+        <ListBox x:Name="MessageListBox" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" TabIndex="4" />
     </Grid>
 </Page>
