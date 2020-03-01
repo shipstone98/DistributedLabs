@@ -2,11 +2,11 @@
 
 namespace Translator.Server
 {
-    internal class Translator: MarshalByRefObject
+    public class Translator: MarshalByRefObject
     {
-        internal static String Translate(String englishString) => String.IsNullOrWhiteSpace(englishString) ? "" : Translator.Translate(englishString.Split(' '));
+        public String Translate(String englishString) => String.IsNullOrWhiteSpace(englishString) ? "" : Translator.Translate(englishString.Split(' '));
 
-        internal static String Translate(String[] englishString)
+        public String Translate(String[] englishString)
         {
             if (englishString is null)
             {
