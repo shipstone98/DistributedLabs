@@ -7,5 +7,6 @@ namespace Translator
         String GetName();
         String GetStudentId();
         String Translate(String source);
+        String Translate(String[] source);
     }
 }
