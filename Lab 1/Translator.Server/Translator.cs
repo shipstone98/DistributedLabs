@@ -2,8 +2,12 @@
 
 namespace Translator.Server
 {
-    public class Translator: MarshalByRefObject
+    public class Translator: MarshalByRefObject, ITranslator
     {
+        public String GetName() => "Christopher Shipstone";
+
+        public String GetStudentId() => "553101";
+
         public String Translate(String englishString) => String.IsNullOrWhiteSpace(englishString) ? "" : this.Translate(englishString.Split(' '));
 
         public String Translate(String[] englishString)
