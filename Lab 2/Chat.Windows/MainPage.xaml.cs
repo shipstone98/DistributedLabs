@@ -33,6 +33,8 @@ namespace Chat.Windows
             this.Connection.On<String, String>("GetMessage",
                 new Action<String, String>((username, message) =>
                     this.GetMessage(username, message)));
+
+            this.Connection.Closed += new Func<Exception, Task>(this.Connection_ClosedAsync);
         }
 
         private async Task ConnectAsync()
@@ -55,6 +57,8 @@ namespace Chat.Windows
                 this.Connected = false;
             }
         }
+
+        private async Task Connection_ClosedAsync(Exception ex) => this.Connected = false;
 
         private async void GetMessage(String username, String message)
         {
@@ -99,6 +103,7 @@ namespace Chat.Windows
             try
             {
                 await this.Connection.InvokeAsync("BroadcastMessage", this.UsernameTextBox.Text, this.MessageTextBox.Text);
+                this.MessageTextBox.Text = "";
             }
 
             catch
