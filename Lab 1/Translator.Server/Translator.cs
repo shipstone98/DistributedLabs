@@ -4,7 +4,7 @@ namespace Translator.Server
 {
     public class Translator: MarshalByRefObject
     {
-        public String Translate(String englishString) => String.IsNullOrWhiteSpace(englishString) ? "" : Translator.Translate(englishString.Split(' '));
+        public String Translate(String englishString) => String.IsNullOrWhiteSpace(englishString) ? "" : this.Translate(englishString.Split(' '));
 
         public String Translate(String[] englishString)
         {
