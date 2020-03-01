@@ -5,7 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Translator.Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="640" Width="480">
+        Title="MainWindow" Height="300" Width="400">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBox x:Name="InputTextBox" Grid.Row="0" Grid.Column="0" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" AcceptsReturn="False" AcceptsTab="False" TabIndex="1" />
+        <Button x:Name="TranslateButton" Grid.Row="1" Grid.Column="0" Margin="10" Content="Translate!" TabIndex="2" />
+        <TextBlock x:Name="OutputTextBlock" Grid.Row="2" Grid.Column="0" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
     </Grid>
 </Window>
