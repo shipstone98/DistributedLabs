@@ -50,7 +50,15 @@ namespace Translator.Client
                 MessageBox.Show("You must enter a string to be translated.", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            this.OutputTextBlock.Text = this.Translator.Translate(this.InputTextBox.Text);
+            try
+            {
+                this.OutputTextBlock.Text = this.Translator.Translate(this.InputTextBox.Text);
+            }
+
+            catch
+            {
+                MessageBox.Show("The remote host could not be reached.", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
