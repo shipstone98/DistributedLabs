@@ -2,6 +2,8 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Translator.Server
 {
@@ -14,7 +16,30 @@ namespace Translator.Server
 
         private static void Console_CancelKeyPress(Object sender, ConsoleCancelEventArgs e) => Program.Listener.Stop();
 
-        private static int Main(String[] args)
+        private static void Handle(byte[] rawData, int remainingLength)
+        {
+            int offset = rawData[0];
+            int dataLength = rawData[1] * 256 + rawData[2];
+            byte[] byteMessage = new byte[remainingLength];
+            Array.Copy(rawData, 3, byteMessage, 0, dataLength);
+            String message = Encoding.ASCII.GetString(rawData, 3, dataLength);
+            Console.WriteLine($"Encryption key: {offset}");
+            Console.WriteLine($"Data length: {dataLength}");
+            Console.WriteLine($"Received message: {message}");
+
+            for (int i = 0; i < message.Length; i ++)
+            {
+                if ((byteMessage[i] = (byte) ((int) byteMessage[i] + (int) offset)) > 126)
+                {
+                    byteMessage[i] = (byte) ((int) byteMessage[i] - 126 + 31);
+                }
+            }
+
+            String encryptedMessage = Encoding.ASCII.GetString(byteMessage, 0, dataLength);
+            Console.WriteLine($"Encrypted message: {encryptedMessage}");
+        }
+
+        private async static Task<int> Main(String[] args)
         {
             Program.Listener = new TcpListener(IPAddress.Any, Program.Port);
             Program.Listener.Start();
@@ -32,13 +57,13 @@ namespace Translator.Server
                     {
                         NetworkStream ns = client.GetStream();
                         byte[] header = new byte[Program.BufferSize];
-                        ns.Read(header, 0, Program.BufferSize);
+                        await ns.ReadAsync(header, 0, Program.BufferSize);
                         int messageType = header[3];
                         remainingLength = header[4] * 256 + header[5];
                         Console.WriteLine($"Message type: {messageType}");
                         Console.WriteLine($"Length: {remainingLength}");
                         rawData = new byte[remainingLength];
-                        ns.Read(rawData, 0, remainingLength);
+                        await ns.ReadAsync(rawData, 0, remainingLength);
                         ns.Close();
                     }
                 }
@@ -48,25 +73,8 @@ namespace Translator.Server
                     break;
                 }
 
-                int offset = rawData[0];
-                int dataLength = rawData[1] * 256 + rawData[2];
-                byte[] byteMessage = new byte[remainingLength];
-                Array.Copy(rawData, 3, byteMessage, 0, dataLength);
-                String message = Encoding.ASCII.GetString(rawData, 3, dataLength);
-                Console.WriteLine($"Encryption key: {offset}");
-                Console.WriteLine($"Data length: {dataLength}");
-                Console.WriteLine($"Received message: {message}");
-
-                for (int i = 0; i < message.Length; i ++)
-                {
-                    if ((byteMessage[i] = (byte) ((int) byteMessage[i] + (int) offset)) > 126)
-                    {
-                        byteMessage[i] = (byte) ((int) byteMessage[i] - 126 + 31);
-                    }
-                }
-
-                String encryptedMessage = Encoding.ASCII.GetString(byteMessage, 0, dataLength);
-                Console.WriteLine($"Encrypted message: {encryptedMessage}");
+                Thread t = new Thread(() => Program.Handle(rawData, remainingLength));
+                t.Start();
             } while (true);
 
             Console.WriteLine("Server shutting down");
