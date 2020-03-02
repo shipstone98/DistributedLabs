@@ -1,9 +1,6 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Translation.WebApi.Controllers
 {
@@ -22,6 +19,7 @@ namespace Translation.WebApi.Controllers
         public String GetName(String name) => "Your name is " + name;
 
         [HttpGet("{input}", Name = "getString")]
-        public String GetString(String input) => "You sent the string " + input;
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetString(String input) => this.Ok("You sent the string " + input);
     }
 }
