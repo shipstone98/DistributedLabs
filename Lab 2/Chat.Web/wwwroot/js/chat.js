@@ -3,9 +3,9 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/ChatHub").build();
 document.getElementById("sendButton").disabled = true;
 
-connection.on("GetMessage", function(user, message) {
+connection.on("GetMessage", function(user, message, timestamp) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMessage = user + ": " + msg;
+    var encodedMessage = fromServer(timestamp) + "\t" + user + ": " + msg;
     var li = document.createElement("li");
     li.textContent = encodedMessage;
     document.getElementById("messageList").appendChild(li);

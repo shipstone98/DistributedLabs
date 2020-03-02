@@ -6,6 +6,6 @@ namespace Chat.Web.Hubs
 {
     public class ChatHub: Hub
     {
-        public async Task BroadcastMessage(String username, String message) => await this.Clients.All.SendAsync("GetMessage", username, message);
+        public async Task BroadcastMessage(String username, String message) => await this.Clients.All.SendAsync("GetMessage", username, message, DateTime.Now);
     }
 }

@@ -30,9 +30,9 @@ namespace Chat.Windows
             this.Connected = false;
             this.Connection = new HubConnectionBuilder().WithUrl($"https://{MainPage.Hostname}:{MainPage.Port}/ChatHub").Build();
 
-            this.Connection.On<String, String>("GetMessage",
-                new Action<String, String>((username, message) =>
-                    this.GetMessage(username, message)));
+            this.Connection.On<String, String, DateTime>("GetMessage",
+                new Action<String, String, DateTime>((username, message, timestamp) =>
+                    this.GetMessage(username, message, timestamp)));
 
             this.Connection.Closed += new Func<Exception, Task>(this.Connection_ClosedAsync);
         }
@@ -60,12 +60,12 @@ namespace Chat.Windows
 
         private async Task Connection_ClosedAsync(Exception ex) => this.Connected = false;
 
-        private async void GetMessage(String username, String message)
+        private async void GetMessage(String username, String message, DateTime timestamp)
         {
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.High,
                 () =>
                 {
-                    String chat = $"{username}: {message}";
+                    String chat = $"{timestamp}\t{username}: {message}";
                     this.MessageListBox.Items.Add(chat);
                 });
         }
