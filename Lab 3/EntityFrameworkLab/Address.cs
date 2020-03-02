@@ -10,6 +10,7 @@ namespace EntityFrameworkLab
         public int AddressID { get; set; }
         
         public String City { get; set; }
+        public String Country { get; set; }
         public String County { get; set; }
         public String Number { get; set; }
         public ICollection<Person> People { get; set; }
