@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EntityFrameworkLab
 {
     public class Address
     {
+        [Key]
+        public int AddressID { get; set; }
+        
         public String City { get; set; }
         public String County { get; set; }
         public String Number { get; set; }
