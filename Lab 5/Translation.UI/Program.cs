@@ -19,7 +19,7 @@ namespace Translation.UI
         private async static Task<int> Main(String[] args)
         {
             Program.Client.BaseAddress = new Uri(Program.URI);
-            String[] requests = new String[] { "/api/Translate/Get", "/api/Translate/GetInt/5", "/api/Translate/GetName/Chris", "/api/Translate/GetString/Hello" };
+            String[] requests = new String[] { "/api/Translate/Get", "/api/Translate/GetInt/5", "/api/Translate/GetName/Chris", "/api/Translate/GetString/Hello%20World" };
 
             foreach (String request in requests)
             {
