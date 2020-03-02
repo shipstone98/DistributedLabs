@@ -19,29 +19,35 @@ namespace Translation.UI
         private async static Task<int> Main(String[] args)
         {
             Program.Client.BaseAddress = new Uri(Program.URI);
+            String[] requests = new String[] { "/api/Translate/Get", "/api/Translate/GetInt/5", "/api/Translate/GetName/Chris", "/api/Translate/GetString/Hello" };
 
-            try
+            foreach (String request in requests)
             {
-                Task<String> str = Program.GetStringAsync("/api/Translate/GetString/Hello");
-
-                if (await Task.WhenAny(str, Task.Delay(20000)) == str)
+                try
                 {
-                    Console.WriteLine(str.Result);
+                    Task<String> str = Program.GetStringAsync(request);
+
+                    if (await Task.WhenAny(str, Task.Delay(20000)) == str)
+                    {
+                        Console.WriteLine(str.Result);
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("ERROR: request timed out");
+                        Program.Client.Dispose();
+                        return -1;
+                    }
                 }
 
-                else
+                catch
                 {
-                    Console.WriteLine("ERROR: request timed out");
+                    Console.WriteLine("ERROR: couldn't resolve host");
                     Program.Client.Dispose();
                     return -1;
                 }
             }
 
-            catch (Exception ex)
-            {
-                Console.WriteLine("ERROR: " + ex);
-            }
-            
             Program.Client.Dispose();
 
             if (!Console.IsInputRedirected)
