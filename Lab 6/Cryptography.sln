@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptography.UI", "Cryptography.UI\Cryptography.UI.csproj", "{AE7E1F6B-42E8-4FCF-9BDF-7B737733E4F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptography", "Cryptography\Cryptography.csproj", "{502F6989-6F62-4FCA-82C4-9904F40899EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{AE7E1F6B-42E8-4FCF-9BDF-7B737733E4F0}.Release|x64.Build.0 = Release|Any CPU
 		{AE7E1F6B-42E8-4FCF-9BDF-7B737733E4F0}.Release|x86.ActiveCfg = Release|Any CPU
 		{AE7E1F6B-42E8-4FCF-9BDF-7B737733E4F0}.Release|x86.Build.0 = Release|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Debug|x64.Build.0 = Debug|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Release|x64.Build.0 = Release|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{502F6989-6F62-4FCA-82C4-9904F40899EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
