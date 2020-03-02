@@ -13,6 +13,7 @@ namespace EntityFrameworkLab
                 Address address = new Address()
                 {
                     City = "Some City",
+                    Country = "United Kingdom",
                     County = "Some County",
                     Number = "1076",
                     People = new List<Person>(),
