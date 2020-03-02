@@ -19,11 +19,26 @@ connection.start().then(function() {
 
 document.getElementById("sendButton").addEventListener("click", function(event) {
     var user = document.getElementById("usernameInput").value;
-    var message = document.getElementById("messageInput").value;
+    var messageInput = document.getElementById("messageInput");
+    var message = messageInput.value;
+
+    if (user.trim().length === 0) {
+        alert("You must enter your username.");
+        event.preventDefault();
+        return;
+    }
+
+    if (message.trim().length === 0) {
+        alert("You must enter a message.");
+        event.preventDefault();
+        return;
+    }
 
     connection.invoke("BroadcastMessage", user, message).catch(function (err) {
         return console.error(err.toString());
     });
 
     event.preventDefault();
+    messageInput.value = "";
+    messageInput.focus();
 })
