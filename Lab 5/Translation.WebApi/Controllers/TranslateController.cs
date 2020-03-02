@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
+using Translation.WebApi.Models;
+
 namespace Translation.WebApi.Controllers
 {
     [ApiController]
@@ -20,6 +22,17 @@ namespace Translation.WebApi.Controllers
 
         [HttpGet("{input}", Name = "getString")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetString(String input) => this.Ok("You sent the string " + input);
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult GetString(String input)
+        {
+            String[] split = input.Split(' ');
+
+            if (split.Length <= 1)
+            {
+                return this.BadRequest();
+            }
+
+            return this.Ok(Translator.Translate(split));
+        }
     }
 }
