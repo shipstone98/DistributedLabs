@@ -1,12 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EntityFrameworkLab
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private async static Task<int> Main(String[] args)
         {
-            Console.WriteLine("Hello World!");
+            using (Context context = new Context())
+            {
+                Address address = new Address()
+                {
+                    City = "Some City",
+                    County = "Some County",
+                    Number = "1076",
+                    People = new List<Person>(),
+                    Postcode = "Some Postcode",
+                    Street = "Some Street"
+                };
+
+                Person person = new Person()
+                {
+                    Address = address,
+                    DateOfBirth = DateTime.Now,
+                    Forename = "Jane",
+                    MiddleName = "Janet",
+                    Surname = "Doe"
+                };
+
+                context.Addresses.Add(address);
+                context.People.Add(person);
+                await context.SaveChangesAsync();
+            }
+
+            return 0;
         }
     }
 }
