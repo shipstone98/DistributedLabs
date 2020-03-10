@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Sign In</h1>
+
+<div>
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        <h4>Welcome @this.User.Identity.Name</h4>
+    }
+
+    else
+    {
+        <h4>You are not logged in.</h4>
+    }
+</div>
