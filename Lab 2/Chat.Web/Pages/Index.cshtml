@@ -1,0 +1,57 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-2">Username</div>
+        <div class="col-4"><input type="text" id="usernameInput" autofocus /></div>
+    </div>
+    <div class="row">
+        <div class="col-2">Message</div>
+        <div class="col-4"><input type="text" id="messageInput" /></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">
+            <input type="button" id="sendButton" value="Send" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <ul style="list-style-type:none" id="messageList"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    var usernameInput = document.getElementById("usernameInput");
+    var messageInput = document.getElementById("messageInput");
+    var sendButton = document.getElementById("sendButton");
+
+    usernameInput.addEventListener("keydown", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            messageInput.focus();
+        }
+    });
+
+    messageInput.addEventListener("keydown", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("sendButton").click();
+        }
+    });
+</script>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/time.js"></script>
+<script src="~/js/chat.js"></script>
